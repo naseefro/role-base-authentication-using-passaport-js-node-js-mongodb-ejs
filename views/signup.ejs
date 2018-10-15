@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+
+    <!-- CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script>
+        function validateForm() {
+            var x = document.forms["myForm"]["name"].value;
+            var z = document.forms["myForm"]["location"].value;
+            var e = document.forms["myForm"]["email"].value;
+            var p = document.forms["myForm"]["password"].value;
+
+
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            if (e == "") {
+                alert("Email Address must be filled out");
+                return false;
+            }
+            if (p == "") {
+                alert("Password must be filled out");
+                return false;
+            }
+
+            if (x == "") {
+                alert("Name must be filled out");
+                return false;
+            }
+
+            if (z == "") {
+                alert("location must be filled out");
+                return false;
+            }
+
+
+            if (reg.test(e) == false) {
+                alert('Invalid Email Address');
+                return false;
+            }
+
+
+            if (p.length < 6) {
+                alert("Password must have 6 letters");
+                return false;
+            }
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <header class="navbar navbar-fixed-top navbar-dark " role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                
+              </button>
+                <a href="/" class="navbar-brand">Job Portal </a>
+            </div>
+
+            <nav class="collapse navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+
+                    <% if (user) {%>
+                        <% if (user.role === 'jobseeker') {%>
+                            <li><a href="/jobseeker">Find Jobs</a></li>
+                            <li><a href="/profile/view/<%=user._id%>">Profile</a></li>
+
+                            <%} else if (user.role === 'company') {%>
+                                <li><a href="/company">AuFind Jobsthor</a></li>
+                                <li><a href="/addjob">addjob</a></li>
+                                <li><a href="/profile/view/<%=user._id%>">Profile</a></li>
+
+                                <%}%>
+                                    <li><a href="/auth/logout">Logout</a></li>
+                                    <%} else {%>
+                                        <li><a href="/auth/signup">Signup</a></li>
+                                        <li><a href="/auth/login">Login</a></li>
+                                        <%}%>
+                </ul>
+            </nav>
+        </div>
+
+
+
+    </header>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <br><br><br>
+                <h1>Signup</h1>
+                <form name="myForm" onsubmit="return validateForm()" method="POST">
+                    <div class="form-group">
+                        <input type="email" name='email' placeholder='Email' class="form-control" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name='password' placeholder='Password' class="form-control" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name='name' placeholder='name' class="form-control" maxlength="25">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name='location' placeholder='Location' class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select name="role" id="role">
+                                    <option value="jobseeker">jobseeker</option>
+                                    <option value="company">company</option>
+                                </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Signup</button>
+                </form>
+                <h5>Or <a href="/auth/login">Login</a></h5>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
